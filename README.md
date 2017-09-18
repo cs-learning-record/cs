@@ -37,15 +37,7 @@
 | :------: | :-------: | :--------: | :--------: | :------------: | :---------: |
 | 计算网络 | http 协议 | https 协议 | http2 协议 | websocket 协议 | TCP/IP 协议 |
 
-1. [http2](https://github.com/ftTony/blog/issues/9)
-2. [TCP/IP 详解学习笔记](https://www.cnblogs.com/zhehan54/p/6204767.html)
-3. [计算机网络基础知识总结](https://www.cnblogs.com/maybe2030/p/4781555.html)
-4. [全面分析前端的网络请求](https://mp.weixin.qq.com/s/8mBJuv-1nHIo-2BU1X4MhA)
-5. [进阶必备的网络基础](https://juejin.im/post/5c591fda6fb9a049dc02b1cc)
-6. [「多图警告」重学 TCP/IP 协议](https://mp.weixin.qq.com/s/pFlJglicKZVh31EOMe83Hw)
-7. [HTTP/3 要点](https://mp.weixin.qq.com/s/qBD90RdofvYDNX2sSJWgNA)
-8. [DNS 劫持详解](https://mp.weixin.qq.com/s/vFMEJFHBV5ws268oOkDReg)
-9. [安全思维导图集合](https://github.com/SecWiki/sec-chart)
+1. [安全思维导图集合](https://github.com/SecWiki/sec-chart)
 
 ### 安全
 
