@@ -52,3 +52,4 @@
 1. [网络安全](https://github.com/frank-lam/fullstack-tutorial/blob/master/notes/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8.md)
 1. [安全思维导图集合](https://github.com/SecWiki/sec-chart)
 1. [各种安全相关思维导图整理收集](https://github.com/phith0n/Mind-Map)
+2. [安全算法知识体系](https://github.com/404notf0und/My-Security-Algorithm-Architecture)
