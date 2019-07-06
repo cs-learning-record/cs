@@ -1,3 +1,14 @@
+![image](./img/timg.jpg)
+<br>
+
+## 前言
+
+本人平时学习及收集内容，欢迎参入一起讨论。
+
+## 关于作者
+
+暂时欠着
+
 ## OS
 
 1. [45分钟带你入门Linux](https://www.cnblogs.com/liumt/p/6117168.html)
@@ -53,3 +64,11 @@
 1. [安全思维导图集合](https://github.com/SecWiki/sec-chart)
 1. [各种安全相关思维导图整理收集](https://github.com/phith0n/Mind-Map)
 2. [安全算法知识体系](https://github.com/404notf0und/My-Security-Algorithm-Architecture)
+
+## 联系作者
+<div align="center">
+    <p>
+        在颠覆世界的同时，也要好好关照自己。
+    </p>
+    <img src="./img/contact.png" />
+</div>
