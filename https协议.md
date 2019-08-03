@@ -243,7 +243,7 @@ HTTPS 原理与优势：身份验证、信息加密与完整性校验等，且�
 
 <div align="center">
     <p>
-        在颠覆世界的同时，也要好好关照自己。
+        平凡世界，贵在坚持。
     </p>
     <img src="./img/contact.png" />
 </div>
