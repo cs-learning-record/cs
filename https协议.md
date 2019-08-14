@@ -238,7 +238,6 @@ HTTPS 原理与优势：身份验证、信息加密与完整性校验等，且�
 - [HTTPS科普扫盲帖](http://www.cnblogs.com/chyingp/p/https-introduction.html)
 - [https原理通俗了解](http://www.cnblogs.com/zhangshitong/p/6478721.html)
 - [看完这篇文章，我奶奶都懂了 https 的原理](https://www.cnblogs.com/sujing/p/10927569.html)
-- 
 
 
 ## 联系作者
