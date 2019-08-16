@@ -389,9 +389,349 @@ void consumer() {
 }
 ```
 
+##### 2.4.5 管程
+
+管程(英语：Monitors，也称为监视器)是一种程序结构，结构内的多个子程序（对象或模块）形成的多个工作线程互斥访问共享资源。
+
+使用信号量机制实现的生产者消费者问题需要客户端代码做很多控制，而管程把控制的代码独立出来，不仅不容易出错，也使得客户端代码调用更容易。
+
+管程是为了解决信号量在临界区的PV操作上的配对的麻烦，把配对的PV操作集中在一起，生成一种羡慕嫉妒恨编程方法。其中使用了条件变量这种同步机制。
+
+c语言不支持管理，下面的示例代码使用了类Pascal语言来描述管理。示例代码的管程提供了insert()和remove()方法，客户端代码通过调用这两个方法解决生产者-消费者问题。
+
+```
+monitor ProducerConsumer
+    integer i;
+    condition c;
+
+    procedure insert();
+    begin
+        // ...
+    end;
+
+    procedure remove();
+    begin
+        // ...
+    end;
+end monitor;
+```
+
+管程有一个重要特性：在一个时刻只能有一个进程使用管程。进程在无法继续执行的时候不能一直占用管程，否者其它进程永远不能使用管程。
+
+管程引入了**条件变量**以及相关的操作：wait()和signal()来实现同步操作。对条件变量执行wait()操作会导致调用进程阻塞，把管程让出来给另一个进程持有。signal()操作用于唤醒被阻塞的进程。
+
+**使用管程实现生产者-消费者问题**
+
+```
+// 管程
+monitor ProducerConsumer
+    condition full, empty;
+    integer count := 0;
+    condition c;
+
+    procedure insert(item: integer);
+    begin
+        if count = N then wait(full);
+        insert_item(item);
+        count := count + 1;
+        if count = 1 then signal(empty);
+    end;
+
+    function remove: integer;
+    begin
+        if count = 0 then wait(empty);
+        remove = remove_item;
+        count := count - 1;
+        if count = N -1 then signal(full);
+    end;
+end monitor;
+
+// 生产者客户端
+procedure producer
+begin
+    while true do
+    begin
+        item = produce_item;
+        ProducerConsumer.insert(item);
+    end
+end;
+
+// 消费者客户端
+procedure consumer
+begin
+    while true do
+    begin
+        item = ProducerConsumer.remove;
+        consume_item(item);
+    end
+end;
+```
+
 #### 2.5 经典同步问题
 
+生产者和消费者问题前面已经讨论过了。
+
+##### 2.5.1 读者-写者问题
+
+允许多个进程同时对数据进行操作，但是不允许读和写以及写和写操作同时发生。读者优先策略
+
+Rcount:读操作的进程数量(Rcount=0)
+
+CountMutex:对于Rcount进行加锁(CountMutex=1)
+
+WriteMutex:互斥量对于写操作的加锁(WriteMutex=1)
+
+```
+Rcount = 0;
+semaphore CountMutex = 1;
+semaphore WriteMutex = 1;
+
+void writer(){
+    while(true){
+        sem_wait(WriteMutex);
+        // TO DO write();
+        sem_post(WriteMutex);
+    }
+}
+
+// 读者优先策略
+void reader(){
+    while(true){
+        sem_wait(CountMutex);
+        if(Rcount == 0)
+            sem_wait(WriteMutex);
+        Rcount++;
+        sem_post(CountMutex);
+        
+        // TO DO read();
+        
+        sem_wait(CountMutex);
+        Rcount--;
+        if(Rcount == 0)
+            sem_post(WriteMutex);
+        sem_post(CountMutex);
+	}
+}
+```
+
+##### 2.5.2 哲学家进餐问题
+
+![](./img/os23.jpg)
+
+五个哲学家围着一张圆桌，每个哲学家面前放着食物。哲学家的生活有两种交替活动：吃饭以及思考。当一个哲学家吃饭时，需要先拿起自己左右两边的两根筷子，并且一次只能拿起一根筷子。
+
+**方案一：下面是一种错误的解法，考虑到如果所有哲学家同时拿起左手边的筷子，那么就无法拿起右手边的筷子，造成死锁。**
+
+```
+#define N 5		   // 哲学家个数
+void philosopher(int i)  // 哲学家编号：0 － 4
+{
+    while(TRUE)
+    {
+        think();			// 哲学家在思考
+        take_fork(i);			// 去拿左边的叉子
+        take_fork((i + 1) % N);	// 去拿右边的叉子
+        eat();				// 吃面条中….
+        put_fork(i);			// 放下左边的叉子
+        put_fork((i + 1) % N);	// 放下右边的叉子
+    }
+}
+```
+
+**方案二：对拿叉子的过程进行了改进，但仍不正确**
+
+```
+#define N 5	 // 哲学家个数
+while(1)  // 去拿两把叉子
+{       
+    take_fork(i);			// 去拿左边的叉子
+    if(fork((i+1)%N)) {		// 右边叉子还在吗
+    	take_fork((i + 1) % N);// 去拿右边的叉子
+    	break;			// 两把叉子均到手
+    }
+    else {				// 右边叉子已不在
+    	put_fork(i);		// 放下左边的叉子
+    	wait_some_time();	// 等待一会儿
+    }
+}
+```
+
+**方案三：等待时间随机变化。可行，但非万全之策**
+
+```
+#define N 5	 // 哲学家个数
+while(1)  // 去拿两把叉子
+{       
+	take_fork(i);			// 去拿左边的叉子
+	if(fork((i+1)%N)) {		// 右边叉子还在吗
+	    take_fork((i + 1) % N);// 去拿右边的叉子
+	    break;			// 两把叉子均到手
+	}
+	else {				// 右边叉子已不在
+	    put_fork(i);		// 放下左边的叉子
+	    wait_random_time( );	// 等待随机长时间
+	}
+}
+```
+
+**方案四：互斥访问。正确，但每次只允许一人进餐**
+
+```
+semaphore mutex	   // 互斥信号量，初值1
+void philosopher(int i)  // 哲学家编号i：0－4	
+{
+	while(TRUE){
+	    think();			// 哲学家在思考
+	    P(mutex);			// 进入临界区
+	    take_fork(i);			// 去拿左边的叉子
+	    take_fork((i + 1) % N);	// 去拿右边的叉子
+	    eat();				// 吃面条中….
+	    put_fork(i);			// 放下左边的叉子
+	    put_fork((i + 1) % N);	// 放下右边的叉子
+	    V(mutex);			// 退出临界区
+	}
+}
+```
+
+**正确方案如下：**
+
+为了防止死锁的发生，可以设置两个条件（临界资源）：
+
+- 必须同时拿起左右两根筷子；
+- 只有在两个邻居都没有进餐的情况下才允许进餐。
+
+```
+//1. 必须由一个数据结构，来描述每个哲学家当前的状态
+#define N 5
+#define LEFT i // 左邻居
+#define RIGHT (i + 1) % N    // 右邻居
+#define THINKING 0
+#define HUNGRY   1
+#define EATING   2
+typedef int semaphore;
+int state[N];                // 跟踪每个哲学家的状态
+
+//2. 该状态是一个临界资源，对它的访问应该互斥地进行
+semaphore mutex = 1;         // 临界区的互斥
+
+//3. 一个哲学家吃饱后，可能要唤醒邻居，存在着同步关系
+semaphore s[N];              // 每个哲学家一个信号量
+
+void philosopher(int i) {
+    while(TRUE) {
+        think();
+        take_two(i);
+        eat();
+        put_tow(i);
+    }
+}
+
+void take_two(int i) {
+    P(&mutex);  // 进入临界区
+    state[i] = HUNGRY; // 我饿了
+    test(i); // 试图拿两把叉子
+    V(&mutex); // 退出临界区
+    P(&s[i]); // 没有叉子便阻塞
+}
+
+void put_tow(i) {
+    P(&mutex);
+    state[i] = THINKING;
+    test(LEFT);
+    test(RIGHT);
+    V(&mutex);
+}
+
+void test(i) {         // 尝试拿起两把筷子
+    if(state[i] == HUNGRY && state[LEFT] != EATING && state[RIGHT] !=EATING) {
+        state[i] = EATING;
+        V(&s[i]); // 通知第i个人可以吃饭了
+    }
+}
+
+```
+
 #### 2.6 进程通信
+
+进程同步与进程通信很容易混淆，它们的区别在于：
+
+- 进程同步：控制多个进程按一定顺序执行
+- 进程通信：进程间传输信息
+
+进程通信是一种手段，而进程同步是一种目的。也可以说，为了能够达到进程同步的目的，需要让进程进行通信，传输一些进程同步所需要的信息。
+
+##### 2.6.1 进程通信方式
+
+![](./img/os24.jpg)
+
+**直接通信**
+
+发送进程直接把消息发送给接收进程，并将它挂在接收进程的消息缓冲队列上，接收进程从消息缓冲队列中取得消息。
+
+Send 和 Receive 原语的使用格式如下：
+
+```
+Send(Receiver,message);//发送一个消息message给接收进程Receiver
+Receive(Sender,message);//接收Sender进程发送的消息message
+```
+
+**间接通信**
+
+间接通信方式是指进程之间的通信需要通过作为**共享数据结构的实体**。该实体用来暂存发送进程发给目标进程的消息。
+
+发送进程把消息发送到某个中间实体中，接收进程从中间实体中取得消息。这种中间实体一般称为信箱，这种通信方式又称为信箱通信方式。该通信方式广泛应用于计算机网络中，相应的通信系统称为电子邮件系统。
+
+##### 2.6.2 管道
+
+管道是通过调用 pipe 函数创建的，fd[0] 用于读，fd[1] 用于写。
+
+```
+#include <unistd.h>
+int pipe(int fd[2]);
+```
+
+它具有以下限制：
+
+- 只支持半双工通信（单向传输）；
+- 只能在父子进程中使用。
+
+![](./img/os25.png)
+
+##### 2.6.2 命名管道
+
+也称为命名管道，去除了管道只能在父子进程中使用的限制。
+
+```
+#include <sys/stat.h>
+int mkfifo(const char *path, mode_t mode);
+int mkfifoat(int fd, const char *path, mode_t mode);
+```
+
+FIFO 常用于客户-服务器应用程序中，FIFO 用作汇聚点，在客户进程和服务器进程之间传递数据。
+
+![](./img/os26.png)
+
+##### 2.6.3 消息队列
+
+间接（内核）
+
+相比于 FIFO，消息队列具有以下优点：
+
+- 消息队列可以独立于读写进程存在，从而避免了 FIFO 中同步管道的打开和关闭时可能产生的困难；
+- 避免了 FIFO 的同步阻塞问题，不需要进程自己提供同步方法；
+- 读进程可以根据消息类型有选择地接收消息，而不像 FIFO 那样只能默认地接收。
+
+##### 2.6.4 信号量
+
+它是一个计数器，用于为多个进程提供对共享数据对象的访问。
+
+##### 2.6.5 共享内存
+
+允许多个进程共享一个给定的存储区。因为数据不需要在进程之间复制，所以这是最快的一种 IPC。需要使用信号量用来同步对共享存储的访问。多个进程可以将同一个文件映射到它们的地址空间从而实现共享内存。另外 XSI 共享内存不是使用文件，而是使用使用内存的匿名段。
+
+##### 2.6.6 套接字
+
+与其它通信机制不同的是，它可用于不同机器间的进程通信。
 
 #### 2.7 线程间通信和进程间通信
 
@@ -401,15 +741,15 @@ void consumer() {
 ##### 2.7.1 线程间通信
 
 - **synchronized同步**
-  - 这种方式，本质上就是“共享内存”
+  - 这种方式，本质上就是“共享内存” 式的通信。多个线程需要访问同一个共享变量，谁拿到了锁（获得了访问权限），谁就可以执行。
 - **while轮询方式**
-  - 在这种方式下，
-  - 之所以说它浪费资源，
-  - 就类似于现实生活中，
+  - 在这种方式下，ThreadA 不断地改变条件，ThreadB 不停地通过 while 语句检测这个条件 `(list.size()==5)`是否成立 ，从而实现了线程间的通信。但是这种方式会浪费 CPU 资源。
+  - 之所以说它浪费资源，是因为 JVM 调度器将 CPU 交给 ThreadB 执行时，它没做啥 “有用” 的工作，只是在不断地测试某个条件是否成立。
+  - 就类似于现实生活中，某个人一直看着手机屏幕是否有电话来了，而不是：在干别的事情，当有电话来时，响铃通知TA电话来了。
 - **wait/notify机制**
-  - 当条件未满足时，
+  - 当条件未满足时，ThreadA 调用 wait() 放弃 CPU，并进入阻塞状态。（不像 while 轮询那样占用 CPU）当条件满足时，ThreadB 调用 notify() 通知线程 A，所谓通知线程 A，就是唤醒线程 A，并让它进入可运行状态。
 - **管道通信**
-  - java.io.
+  - java.io.PipedInputStream 和 java.io.PipedOutputStream进行通信
 
 ##### 2.7.2 进程间通信
 
@@ -512,7 +852,41 @@ Linux进程结构可由三部分组成：
 
 进程P1和P2所请求的资源都得不到满足，只有进程P3可以，让P3执行，之后释放P3拥有的资源，此时A=(2 2 2 0)。P2可以执行，执行后释放P2拥有的资源，A=(4 2 2 1)。P1也可以执行。所有进程都可以顺利执行，没有死锁。
 
+算法总结如下：
+
+每个进程最开始时都不被标记，执行过程有可能被标记。当算法结束时，任何没有被标记的进程都是死锁进程。
+
+1. 寻找一个没有标记的进程Pi，它所请求的资源小于等于A。
+2. 如果找到了这样一个进程，那么将C矩阵的第i行向量加到A中，标记该进程，并转回1.
+3. 如果没有这样一个进程，算法终止。
+
+（三）死锁恢复
+
+- 利用抢占恢复
+- 利用回滚恢复
+- 通过杀死进程恢复
+
 ##### 3.3.3 死锁预防
+
+在程序运行之前预防发生死锁，确保系统永远不会进入死锁状态。
+
+**（一）破坏互斥条件**
+
+例如假脱机打印技术允许若干个进程同时输出，唯一真正请求物理打印机的进程是打印机守护进程。（把互斥地封装成可以同时访问的，例如：打印机的缓存）
+
+**（二）破坏占有和等待条件**
+
+一种实现方式是规定所有进程在开始执行前请求所需要的全部资源。
+
+但是，这种策略也有如下缺点：
+
+- 在许多情况下。一个进程在执行之前不可能知道它所需要的全部资源。这是由于进程在执行时是动态的，不可预测的；
+- 资源利用率低。无论所分资源何时用到，一个进程只有在占有所需的全部资源后才能执行。即使有些资源最后才被该进程用到一次，但该进程在生存期间却一直占有它们，造成长期占着不用的状况。这显然是一种极大的资源浪费；
+- 降低了进程的并发性。因为资源有限，双加上存在浪费，能分配到所需全部资源的进程个数就必然少了。
+
+**（三）破坏不可抢占条件**
+
+**（四）破坏循环等待**
 
 ##### 3.3.4 死锁避免
 
