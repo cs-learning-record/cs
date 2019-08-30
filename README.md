@@ -56,6 +56,7 @@
 17. [【性能优化】DNS 预解析](https://github.com/amandakelake/blog/issues/50)
 18. [计算机网络](https://github.com/frank-lam/fullstack-tutorial/blob/master/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md)
 19. [RESTful 架构详解](https://github.com/frank-lam/fullstack-tutorial/blob/master/notes/RESTful%20API.md)
+20. [HTTP协议理解及服务端与客户端的设计实现](https://mp.weixin.qq.com/s/69EvvR0FHR57QuhDC7bJ8w)
 
 ### 安全
 
@@ -72,6 +73,7 @@
 7. [安全思维导图集合](https://github.com/SecWiki/sec-chart)
 8. [各种安全相关思维导图整理收集](https://github.com/phith0n/Mind-Map)
 9. [安全算法知识体系](https://github.com/404notf0und/My-Security-Algorithm-Architecture)
+10. [WEB验证的过去现在与未来](https://mp.weixin.qq.com/s/-PlSYKTgu9h-bYMknTKNkw)
 
 ## 联系作者
 
