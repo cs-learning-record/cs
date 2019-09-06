@@ -11,6 +11,12 @@
 
 ## 内容
 
+
+### 参考资料
+
+- [Web 登录鉴权](https://yhlben.github.io/blog/osi-web-login.html#session-cookie)
+
+
 ## 联系作者
 
 <div align="center">
