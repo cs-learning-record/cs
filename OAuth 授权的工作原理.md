@@ -16,6 +16,7 @@
 
 - [简述 OAuth 2.0 的运作流程](https://www.barretlee.com/blog/2016/01/10/oauth2-introduce/)
 - [移花接木：针对OAuth2的攻击](http://insights.thoughtworkers.org/attack-aim-at-oauth2/)
+- [OAuth 授权的工作原理是怎样的？足够安全吗？](https://www.zhihu.com/question/19781476/answer/81020455)
 
 ## 联系作者
 
