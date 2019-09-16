@@ -15,7 +15,9 @@
 ### 参考资料
 
 - [Web 登录鉴权](https://yhlben.github.io/blog/osi-web-login.html#session-cookie)
-
+- [单点登录原理与简单实现](https://www.cnblogs.com/ywlaker/p/6113927.html)
+- [单点登录（SSO），从原理到实现](https://www.cnblogs.com/ywlaker/p/6113927.html)
+- [单点登录（SSO）看这一篇就够了](https://yq.aliyun.com/articles/636281)
 
 ## 联系作者
 
