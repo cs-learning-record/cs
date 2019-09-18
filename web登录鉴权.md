@@ -18,6 +18,7 @@
 - [单点登录原理与简单实现](https://www.cnblogs.com/ywlaker/p/6113927.html)
 - [单点登录（SSO），从原理到实现](https://www.cnblogs.com/ywlaker/p/6113927.html)
 - [单点登录（SSO）看这一篇就够了](https://yq.aliyun.com/articles/636281)
+- [彻底理解 cookie、session、token](https://mp.weixin.qq.com/s/1Kh18uyEJzM21mc2l5MMCg)
 
 ## 联系作者
 
