@@ -74,6 +74,7 @@
 8. [各种安全相关思维导图整理收集](https://github.com/phith0n/Mind-Map)
 9. [安全算法知识体系](https://github.com/404notf0und/My-Security-Algorithm-Architecture)
 10. [WEB验证的过去现在与未来](https://mp.weixin.qq.com/s/-PlSYKTgu9h-bYMknTKNkw)
+11. [最常见的6种Web应用漏洞及解决方案](https://mp.weixin.qq.com/s/M-O_Yv1-2Rfcw0scjxoRLQ)
 
 ## 联系作者
 

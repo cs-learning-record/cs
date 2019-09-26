@@ -39,6 +39,7 @@
 ### 参考资料
 
 - [Docker基础](https://github.com/frank-lam/fullstack-tutorial/blob/master/notes/Docker%E5%9F%BA%E7%A1%80.md)
+- [一文零基础教你学会 Docker 入门到实践](https://mp.weixin.qq.com/s/S7ksqF8z4SYJvcG1DOupNA)
 
 ## 联系作者
 
