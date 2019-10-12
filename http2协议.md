@@ -132,6 +132,93 @@ HTTP2能带来的好处：
 
 ### 五、Nginx配置http2
 
+#### 5.1 安装openssl-1.1.0c
+
+```
+cd /root
+
+wget https://www.openssl.org/source/openssl-1.1.0c.tar.gz
+
+tar -zxf openssl-1.1.0c.tar.gz
+
+cd openssl-1.1.0c
+
+./config
+
+make
+
+make install
+
+
+#把旧版本的openssl重命名
+mv /usr/bin/openssl /usr/bin/openssl.bak
+mv /usr/include/openssl /usr/include/openssl.bak
+
+#设置软连接指向刚编译好的新版本的openssl-1.1.0c
+ln -s /usr/local/bin/openssl /usr/bin/openssl
+ln -s /usr/local/include/openssl /usr/include/openssl
+#如果是1.0.2h版本 生成的文件的位置在/usr/local/ssl
+
+#添加libssl.so.1.1的软链接
+ln -s /usr/local/lib64/libssl.so.1.1 /usr/lib64/libssl.so.1.1
+ln -s /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so.1.1
+
+#查看openssl版本
+openssl version
+```
+
+#### 5.2 平滑升级nginx到最新的稳定版
+
+```
+#下载nginx最新版
+cd /root
+wget http://nginx.org/download/nginx-1.10.2.tar.gz
+#解压源码
+tar zxvf nginx-1.10.2.tar.gz
+#进入源码目录
+cd nginx-1.10.2
+
+#加上所需参数开始编译
+./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_v2_module --with-http_gzip_static_module --with-ipv6 --with-http_sub_module --with-openssl=/root/openssl-1.1.0c #对应openssl源码解压后的路径
+
+#执行make编译，但是不要执行make install
+
+make
+
+#重命名nginx旧版本二进制文件，即sbin目录下的nginx（期间nginx并不会停止服务）
+mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old
+
+#然后拷贝一份新编译的二进制文件
+cp objs/nginx /usr/local/nginx/sbin/
+#在源码目录执行make upgrade开始升级
+make upgrade
+
+#完成后查看下版本
+nginx -V
+```
+
+#### 5.3 配置http2.0
+
+配置Nginx开启http 2.0特别简单，只要在Nginx配置文件中找到你要开启http2.0的域名server模块，然后将 listen 443 ssl;改成 listen 443 ssl http2; 即可。
+
+```
+server {
+
+	listen 443 ssl http2;
+	server_name domain.com;
+
+	ssl_certificate /path/to/public.crt;
+	ssl_certificate_key /path/to/private.key;
+	
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #允许的协议 
+	ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5; #加密算法(CloudFlare 推荐的加密套件组) 
+	ssl_prefer_server_ciphers on; #优化 SSL 加密套件 
+	ssl_session_timeout 10m; #客户端会话缓存时间 
+	ssl_session_cache builtin:1000 shared:SSL:10m; #SSL 会话缓存类型和大小 
+	ssl_buffer_size 1400; # 1400 bytes to fit in one MTU
+}
+```
+
 ### 参考资料
 
 - [HTTP2基本概念学习笔记](https://juejin.im/post/5acccf966fb9a028d043c6ec)
