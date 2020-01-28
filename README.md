@@ -17,9 +17,9 @@
 
 ### OS
 
-|       I       |     II     |    III     |
-| :-----------: | :--------: | :--------: |
-| Linux常用命令 | Docker学习 | os基本概念 |
+|       I        |     II      |     III     |
+| :------------: | :---------: | :---------: |
+| Linux 常用命令 | Docker 学习 | os 基本概念 |
 
 1. [45 分钟带你入门 Linux](https://www.cnblogs.com/liumt/p/6117168.html)
 2. [Linux 和 Shell 回炉复习系列文章总目录](https://www.cnblogs.com/f-ck-need-u/p/7048359.html)
@@ -33,36 +33,25 @@
 
 ### 网络
 
-|    I     |    II    |    III    |    IV     |       V       |     VI      |
-| :------: | :------: | :-------: | :-------: | :-----------: | :---------: |
-| 计算网络 | http协议 | https协议 | http2协议 | websocket协议 | TCP/IP 协议 |
+|    I     |    II     |    III     |     IV     |       V        |     VI      |
+| :------: | :-------: | :--------: | :--------: | :------------: | :---------: |
+| 计算网络 | http 协议 | https 协议 | http2 协议 | websocket 协议 | TCP/IP 协议 |
 
-1. [http 详解](https://github.com/ftTony/blog/issues/11)
-2. [https 详解](https://github.com/ftTony/blog/issues/7)
-3. [HTTPS 从认识到线上实战全记录](https://www.cnblogs.com/liuxianan/p/https.html)
-4. [https 原理及实践](https://www.cnblogs.com/lyq863987322/p/8424253.html)
-5. [HTTPS 科普扫盲帖](https://www.cnblogs.com/chyingp/p/https-introduction.html)
-6. [看完这篇文章，我奶奶都懂了 https 的原理](https://www.cnblogs.com/sujing/p/10927569.html)
-7. [http2](https://github.com/ftTony/blog/issues/9)
-8. [TCP/IP 详解学习笔记](https://www.cnblogs.com/zhehan54/p/6204767.html)
-9. [计算机网络基础知识总结](https://www.cnblogs.com/maybe2030/p/4781555.html)
-10. [websocket 学习](https://github.com/ftTony/blog/issues/26)
-11. [全面分析前端的网络请求](https://mp.weixin.qq.com/s/8mBJuv-1nHIo-2BU1X4MhA)
-12. [进阶必备的网络基础](https://juejin.im/post/5c591fda6fb9a049dc02b1cc)
-13. [「多图警告」重学 TCP/IP 协议](https://mp.weixin.qq.com/s/pFlJglicKZVh31EOMe83Hw)
-14. [HTTP/3 要点](https://mp.weixin.qq.com/s/qBD90RdofvYDNX2sSJWgNA)
-15. [DNS 劫持详解](https://mp.weixin.qq.com/s/vFMEJFHBV5ws268oOkDReg)
-16. [安全思维导图集合](https://github.com/SecWiki/sec-chart)
-17. [【性能优化】DNS 预解析](https://github.com/amandakelake/blog/issues/50)
-18. [计算机网络](https://github.com/frank-lam/fullstack-tutorial/blob/master/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C.md)
-19. [RESTful 架构详解](https://github.com/frank-lam/fullstack-tutorial/blob/master/notes/RESTful%20API.md)
-20. [HTTP协议理解及服务端与客户端的设计实现](https://mp.weixin.qq.com/s/69EvvR0FHR57QuhDC7bJ8w)
+1. [http2](https://github.com/ftTony/blog/issues/9)
+2. [TCP/IP 详解学习笔记](https://www.cnblogs.com/zhehan54/p/6204767.html)
+3. [计算机网络基础知识总结](https://www.cnblogs.com/maybe2030/p/4781555.html)
+4. [全面分析前端的网络请求](https://mp.weixin.qq.com/s/8mBJuv-1nHIo-2BU1X4MhA)
+5. [进阶必备的网络基础](https://juejin.im/post/5c591fda6fb9a049dc02b1cc)
+6. [「多图警告」重学 TCP/IP 协议](https://mp.weixin.qq.com/s/pFlJglicKZVh31EOMe83Hw)
+7. [HTTP/3 要点](https://mp.weixin.qq.com/s/qBD90RdofvYDNX2sSJWgNA)
+8. [DNS 劫持详解](https://mp.weixin.qq.com/s/vFMEJFHBV5ws268oOkDReg)
+9. [安全思维导图集合](https://github.com/SecWiki/sec-chart)
 
 ### 安全
 
-|    I    |    II    |   III    |   IV    |    V     |     VI      |
-| :-----: | :------: | :------: | :-----: | :------: | :---------: |
-| XSS攻击 | CRSF攻击 | 流量劫持 | SQL注入 | 密码安全 | web登录鉴权 |
+|    I     |    II     |   III    |    IV    |    V     |      VI      |
+| :------: | :-------: | :------: | :------: | :------: | :----------: |
+| XSS 攻击 | CRSF 攻击 | 流量劫持 | SQL 注入 | 密码安全 | web 登录鉴权 |
 
 1. [XSS](https://github.com/ftTony/blog/issues/19)
 2. [前端安全系列（一）：如何防止 XSS 攻击？](https://juejin.im/post/5bad9140e51d450e935c6d64)
@@ -73,8 +62,8 @@
 7. [安全思维导图集合](https://github.com/SecWiki/sec-chart)
 8. [各种安全相关思维导图整理收集](https://github.com/phith0n/Mind-Map)
 9. [安全算法知识体系](https://github.com/404notf0und/My-Security-Algorithm-Architecture)
-10. [WEB验证的过去现在与未来](https://mp.weixin.qq.com/s/-PlSYKTgu9h-bYMknTKNkw)
-11. [最常见的6种Web应用漏洞及解决方案](https://mp.weixin.qq.com/s/M-O_Yv1-2Rfcw0scjxoRLQ)
+10. [WEB 验证的过去现在与未来](https://mp.weixin.qq.com/s/-PlSYKTgu9h-bYMknTKNkw)
+11. [最常见的 6 种 Web 应用漏洞及解决方案](https://mp.weixin.qq.com/s/M-O_Yv1-2Rfcw0scjxoRLQ)
 
 ## 联系作者
 
